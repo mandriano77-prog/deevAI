@@ -27,9 +27,9 @@ services:
           name: deevai-postgres
           property: connectionString
       - key: APP_BASE_URL
-        sync: false                      # set manually to https://deevai.app
+        sync: false                      # set to https://deevai.app
       - key: DV360_REDIRECT_URI
-        sync: false                      # set to https://app.deevai.com/onboarding
+        sync: false                      # set to https://deevai.app/onboarding
       - key: AWS_REGION
         value: eu-central-1
       - key: KMS_KEY_ID
