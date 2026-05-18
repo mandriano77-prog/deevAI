@@ -1,0 +1,4 @@
+# Pip install order for the monorepo (CI, Render, local pip).
+# Run from apps/api: pip install -r requirements.txt
+-e ../../packages/bidagent
+-e .

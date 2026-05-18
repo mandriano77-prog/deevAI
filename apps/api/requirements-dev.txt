@@ -1,0 +1,6 @@
+# Dev dependencies on top of requirements.txt (CI).
+-r requirements.txt
+pytest>=8.0
+pytest-asyncio>=0.24
+ruff>=0.7
+mypy>=1.13

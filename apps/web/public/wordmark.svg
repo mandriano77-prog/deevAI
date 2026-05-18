@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" width="600" height="140" role="img" aria-label="DeevAI wordmark">
+  <title>DeevAI</title>
+  <desc>Wordmark of DeevAI, the weekly bid agent for Google DV360. The lowercase i in the middle visually highlights the AI inside.</desc>
+  <text
+    x="50%"
+    y="50%"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="Inter, ui-sans-serif, system-ui, -apple-system, sans-serif"
+    font-size="96"
+    font-weight="500"
+    letter-spacing="-2"
+    fill="currentColor"
+  >
+    <tspan>MA</tspan>
+    <tspan fill="#3aa882" font-weight="400">i</tspan>
+    <tspan>NAUS</tspan>
+  </text>
+</svg>

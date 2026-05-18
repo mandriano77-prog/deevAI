@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark light;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: theme("colors.ink.900");
+  color: theme("colors.ink.100");
+  font-feature-settings: "ss01", "cv11";
+}
+
+::selection {
+  background-color: theme("colors.accent.700");
+  color: theme("colors.ink.50");
+}
+
+/* Subtle scrollbar in dark mode */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: theme("colors.ink.800");
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: theme("colors.ink.600");
+}

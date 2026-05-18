@@ -1,0 +1,57 @@
+## Render Blueprint — one-click deploy for the DeevAI backend + Postgres.
+## Push to GitHub, connect repo to Render, click "New Blueprint Instance".
+##
+## Frontend (Next.js) goes on Vercel — see vercel.json.
+
+services:
+  - type: web
+    name: deevai-api
+    runtime: python
+    rootDir: apps/api
+    plan: starter                       # free tier; upgrade when traffic grows
+    region: frankfurt                   # EU data residency
+    # Use build.sh — if the service was created manually, paste the same command in the Render UI.
+    buildCommand: chmod +x build.sh start.sh && ./build.sh
+    startCommand: ./start.sh
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: API_HOST
+        value: 0.0.0.0
+      - key: API_SECRET_KEY
+        generateValue: true              # Render generates a strong random value
+      - key: DATABASE_URL
+        fromDatabase:
+          name: deevai-postgres
+          property: connectionString
+      - key: APP_BASE_URL
+        sync: false                      # set manually to https://deevai.app
+      - key: DV360_REDIRECT_URI
+        sync: false                      # set to https://app.deevai.com/onboarding
+      - key: AWS_REGION
+        value: eu-central-1
+      - key: KMS_KEY_ID
+        sync: false                      # ARN from KMS console (eu-central-1)
+      - key: AWS_ACCESS_KEY_ID
+        sync: false                      # IAM user with kms:Encrypt/Decrypt on that key
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false                      # paste from console.anthropic.com
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DSP_DRY_RUN
+        value: "true"
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+
+databases:
+  - name: deevai-postgres
+    # Legacy "starter" is deprecated — use flexible Postgres plans (see Render docs).
+    plan: basic-256mb
+    region: frankfurt
+    postgresMajorVersion: 16

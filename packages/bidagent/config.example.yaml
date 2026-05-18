@@ -1,0 +1,71 @@
+# bidagent — example configuration
+# Copy to bidagent.yaml, fill credentials refs, never commit secrets.
+
+name: "weekly-tune-acme"          # internal label only
+dry_run: true                     # ALWAYS true until you've reviewed a few cycles
+
+# ────────────────────────────────────────────────────────────────
+# Optimizer parameters (tune per client)
+# ────────────────────────────────────────────────────────────────
+optimizer:
+  cpv_target: 0.60                # 60 cent per visit
+  tolerance_band: 0.20            # on-target band = ±20%
+  max_step_per_run: 0.30          # never move a modifier more than this/run
+  max_modifier: 2.5
+  min_modifier_active: 0.30
+  exploration_revive_after_runs: 4
+  exploration_revive_modifier: 0.50
+  blended_max_bid_step: 0.10
+  blended_max_bid_floor: 0.50
+  blended_max_bid_ceiling: 25.0
+
+hygiene:
+  min_impressions_for_action: 500
+  min_visits_for_strong_action: 10
+  anomalous_ctr_threshold: 0.04   # >4% CTR on display = bot territory
+  min_viewability: 0.40
+  require_viewability_tracking: false
+
+# ────────────────────────────────────────────────────────────────
+# Line Items under management
+# (one entry per campaign; bidagent treats each independently)
+# ────────────────────────────────────────────────────────────────
+line_items:
+  - line_item_id: 1001
+    line_item_name: "ACME — Display + Native IT"
+    bid_modifier_id: 5001
+    cpv_target: 0.60
+    visit_event_id: 12345         # conversion_event ID = page view pixel
+    current_max_bid: 5.00
+    targeting_modules:
+      - time
+      - platform
+      - device
+      - geo
+      - inventory
+
+# ────────────────────────────────────────────────────────────────
+# Beeswax/Buzz credentials (refs, not values)
+# ────────────────────────────────────────────────────────────────
+buzz:
+  base_url: "https://acme.api.beeswax.com"
+  secret_ref: "arn:aws:secretsmanager:eu-west-1:xxx:secret:bidagent/buzz-acme"
+  auth_type: "cookie"
+
+antenna:
+  connection_ref: "arn:aws:secretsmanager:eu-west-1:xxx:secret:bidagent/antenna-acme"
+  schema: "antenna"
+  window_days: 14                 # rolling observation window
+
+# ────────────────────────────────────────────────────────────────
+# Weekly digest
+# ────────────────────────────────────────────────────────────────
+digest:
+  enabled: true
+  language: "it"
+  delivery: ["email", "file"]     # email + write to S3
+  email_to: ["adriano@example.com"]
+  slack_webhook_ref: ""
+  llm_provider: "anthropic"
+  llm_model: "claude-sonnet-4-6"
+  llm_key_ref: "arn:aws:secretsmanager:eu-west-1:xxx:secret:bidagent/anthropic-key"
