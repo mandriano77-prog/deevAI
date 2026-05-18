@@ -5,7 +5,7 @@ Two endpoints from Google:
   - Authorize: https://accounts.google.com/o/oauth2/v2/auth
   - Token:     https://oauth2.googleapis.com/token
 
-We request the offline-access refresh_token so DeevAI can keep
+We request the offline-access refresh_token so deevAI can keep
 managing the tenant's DV360 without re-prompting them.
 
 Scopes we ask for:

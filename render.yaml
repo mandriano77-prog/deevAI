@@ -1,4 +1,4 @@
-## Render Blueprint — one-click deploy for the DeevAI backend + Postgres.
+## Render Blueprint — one-click deploy for the deevAI backend + Postgres.
 ## Push to GitHub, connect repo to Render, click "New Blueprint Instance".
 ##
 ## Frontend (Next.js) goes on Vercel — see vercel.json.

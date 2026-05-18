@@ -1,4 +1,4 @@
-"""User — a person who can log into DeevAI and act on a Tenant.
+"""User — a person who can log into deevAI and act on a Tenant.
 
 For MVP we have one user per tenant (the owner). The model is already
 multi-user shape so we can add team members later without migrations."""

@@ -47,7 +47,7 @@ export default function HomePage() {
         <p className="mt-10 max-w-2xl text-lg leading-relaxed text-ink-100 sm:text-xl">
           Ogni lunedì mattina, le tue campagne Google DV360 ricevono un brief di una
           pagina: cosa è successo, cosa cambieremmo, quanto costa. Tu approvi.
-          DeevAI applica.
+          deevAI applica.
         </p>
 
         <div className="mt-12 flex flex-col items-center gap-3 sm:flex-row">
@@ -91,7 +91,7 @@ export default function HomePage() {
           href="/signup"
           className="mt-8 inline-block rounded-md bg-accent-600 px-6 py-3 text-sm font-medium text-ink-50 hover:bg-accent-700"
         >
-          Inizia con DeevAI
+          Inizia con deevAI
         </Link>
       </section>
 

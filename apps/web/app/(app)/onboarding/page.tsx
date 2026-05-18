@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * DeevAI onboarding — DV360 OAuth user-consent flow.
+ * deevAI onboarding — DV360 OAuth user-consent flow.
  *
  * Four steps:
  *   1) Intro / requirements (Google Cloud OAuth client setup)
@@ -227,7 +227,7 @@ function IntroStep({ onNext }: { onNext: () => void }) {
           Colleghiamo il tuo account Google DV360
         </h1>
         <p className="mt-3 text-sm text-ink-300">
-          Per ottimizzare il bidding su DV360, DeevAI deve leggere le
+          Per ottimizzare il bidding su DV360, deevAI deve leggere le
           metriche dal Bid Manager Reporting e aggiornare i bid modifiers
           sui line item via API. Servono due cose.
         </p>
@@ -247,7 +247,7 @@ function IntroStep({ onNext }: { onNext: () => void }) {
       </ul>
 
       <div className="rounded-md border border-amber-900/60 bg-amber-900/20 px-4 py-3 text-xs text-amber-200">
-        I primi 14 giorni DeevAI gira in <strong>observation only</strong> —
+        I primi 14 giorni deevAI gira in <strong>observation only</strong> —
         proponiamo decisioni ma non tocchiamo i tuoi bid modifier. È una
         garanzia di prodotto, non una limitazione.
       </div>
@@ -421,7 +421,7 @@ function AdvertiserStep({
           Scegli un advertiser
         </h1>
         <p className="mt-2 text-sm text-ink-300">
-          DeevAI gestirà i line item di questo advertiser. Puoi collegarne
+          deevAI gestirà i line item di questo advertiser. Puoi collegarne
           altri in seguito.
         </p>
       </div>

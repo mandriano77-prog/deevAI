@@ -21,17 +21,17 @@ export default function TermsPage() {
         <p className="text-xs text-ink-400">Ultimo aggiornamento: maggio 2026</p>
 
         <p>
-          DeevAI è in private beta. I termini contrattuali definitivi saranno
-          pubblicati al general availability. Durante la beta usi DeevAI a
+          deevAI è in private beta. I termini contrattuali definitivi saranno
+          pubblicati al general availability. Durante la beta usi deevAI a
           tue spese e rischio, e accetti che alcune feature possano cambiare
           o essere temporaneamente non disponibili.
         </p>
 
         <p>
           <strong className="font-medium text-ink-50">Limitazione di responsabilità.</strong>{" "}
-          DeevAI propone decisioni di ottimizzazione del bidding ma non
+          deevAI propone decisioni di ottimizzazione del bidding ma non
           garantisce risultati specifici. Sei sempre tu a controllare quali
-          decisioni vengono applicate al tuo account Google DV360. DeevAI non è
+          decisioni vengono applicate al tuo account Google DV360. deevAI non è
           responsabile per perdite economiche derivanti da decisioni applicate.
         </p>
 

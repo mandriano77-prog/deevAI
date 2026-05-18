@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
     # ── App ──
     app_env: Literal["development", "staging", "production"] = "development"
-    app_name: str = "DeevAI"
+    app_name: str = "deevAI"
     app_base_url: str = "http://localhost:3000"
 
     # ── API ──
@@ -72,7 +72,7 @@ class Settings(BaseSettings):
 
     # ── Email (Resend) ──
     resend_api_key: Optional[str] = None
-    email_from: str = "DeevAI <onboarding@resend.dev>"
+    email_from: str = "deevAI <onboarding@resend.dev>"
 
     # ── Observability ──
     log_level: str = "INFO"

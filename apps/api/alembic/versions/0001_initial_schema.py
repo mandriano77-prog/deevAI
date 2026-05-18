@@ -1,10 +1,10 @@
-"""initial schema — DeevAI single-revision consolidated baseline
+"""initial schema — deevAI single-revision consolidated baseline
 
 Revision ID: 0001_initial_schema
 Revises: 
 Create Date: 2026-05-18
 
-This is a fresh consolidated schema for DeevAI. There is no migration
+This is a fresh consolidated schema for deevAI. There is no migration
 history before it. New tables ship as new revisions on top of 0001.
 """
 from __future__ import annotations
@@ -66,7 +66,7 @@ def upgrade() -> None:
     sa.Column('min_visits_for_strong_action', sa.Integer(), nullable=False),
     sa.Column('anomalous_ctr_threshold', sa.Numeric(precision=5, scale=4), nullable=False, comment='CTR above this triggers click-farm filter'),
     sa.Column('min_viewability', sa.Numeric(precision=4, scale=3), nullable=False),
-    sa.Column('observation_only_until', sa.DateTime(timezone=True), nullable=True, comment="No live writes before this date — DeevAI's 14-day promise"),
+    sa.Column('observation_only_until', sa.DateTime(timezone=True), nullable=True, comment="No live writes before this date — deevAI's 14-day promise"),
     sa.Column('default_line_item_mode', sa.String(length=32), nullable=False, comment='Mode applied to line items after observation_only_until'),
     sa.Column('digest_language', sa.String(length=8), nullable=False, comment='ISO 639-1 language code for the weekly digest'),
     sa.Column('digest_delivery_email', sa.Boolean(), nullable=False),

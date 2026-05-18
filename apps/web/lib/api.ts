@@ -1,5 +1,5 @@
 /**
- * DeevAI API client — fetch wrapper, token handling, typed responses.
+ * deevAI API client — fetch wrapper, token handling, typed responses.
  *
  * All requests go via Next.js rewrite at /api/v1/* → backend :8000.
  * This means no CORS in dev and easy deploy parity in prod.

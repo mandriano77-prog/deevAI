@@ -4,7 +4,7 @@ import { Wordmark } from "@/components/wordmark";
 
 export const metadata = {
   title: "Privacy",
-  description: "Privacy notice for DeevAI.",
+  description: "Privacy notice for deevAI.",
 };
 
 export default function PrivacyPage() {
@@ -24,9 +24,9 @@ export default function PrivacyPage() {
         <section className="space-y-4">
           <p>
             <strong className="font-medium text-ink-50">Chi siamo.</strong>{" "}
-            DeevAI è un prodotto SaaS sviluppato per advertiser e agenzie che
+            deevAI è un prodotto SaaS sviluppato per advertiser e agenzie che
             usano Google DV360. Questa notice descrive come trattiamo i tuoi dati
-            personali e i dati di campagna che colleghi a DeevAI.
+            personali e i dati di campagna che colleghi a deevAI.
           </p>
 
           <p>
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
             refresh token che ci permette di leggere i tuoi dati di
             performance via DV360 Reporting e applicare bid
             adjustments via Google DV360 API. Il refresh token è cifrato
-            at-rest tramite AWS KMS — nessun essere umano in DeevAI vede mai
+            at-rest tramite AWS KMS — nessun essere umano in deevAI vede mai
             quel token in chiaro. Non condividiamo i tuoi dati di campagna
             con terze parti.
           </p>
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
 
           <p>
             <strong className="font-medium text-ink-50">Cookie.</strong>{" "}
-            DeevAI non usa cookie di tracking né analytics di terze parti.
+            deevAI non usa cookie di tracking né analytics di terze parti.
             L'unico cookie che salviamo è il tuo token di sessione (JWT) in
             localStorage, necessario per mantenere il login.
           </p>

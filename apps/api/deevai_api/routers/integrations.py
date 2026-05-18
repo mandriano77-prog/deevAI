@@ -11,7 +11,7 @@ Flow:
      - Verify state, exchange code for refresh_token, store encrypted,
        list the visible advertisers, return them to the FE.
   4) POST /integrations/{id}/dv360/select-advertiser
-     - User picks which advertiser DeevAI should manage; we persist
+     - User picks which advertiser deevAI should manage; we persist
        advertiser_id + partner_id into provider_config.
 """
 

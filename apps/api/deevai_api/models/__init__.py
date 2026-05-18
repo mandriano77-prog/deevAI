@@ -1,4 +1,4 @@
-"""SQLAlchemy ORM models for DeevAI.
+"""SQLAlchemy ORM models for deevAI.
 
 Import everything from this module so Alembic's `target_metadata` picks
 up the full schema (see `alembic/env.py`)."""

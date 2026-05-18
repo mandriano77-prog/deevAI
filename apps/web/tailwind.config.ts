@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // DeevAI brand palette — neutral-leaning with a single accent
+        // deevAI brand palette — neutral-leaning with a single accent
         ink: {
           50: "#f6f6f5",
           100: "#e7e7e4",
@@ -20,7 +20,7 @@ const config: Config = {
           900: "#0e0e0c",
         },
         accent: {
-          // Riverbed teal — DeevAI brand
+          // Riverbed teal — deevAI brand
           50: "#e3f5ee",
           100: "#bce8d8",
           400: "#3aa882",

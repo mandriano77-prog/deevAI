@@ -3,7 +3,7 @@
 In DV360 the hierarchy is Partner → Advertiser → Campaign → Insertion
 Order → Line Item. A refresh_token granted by a Google user can give
 access to many advertisers across one or more partners; we list them
-all and let the operator pick which ones DeevAI should manage.
+all and let the operator pick which ones deevAI should manage.
 
 Endpoint: GET /v4/advertisers (paginated)
 

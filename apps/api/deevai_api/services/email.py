@@ -65,21 +65,21 @@ def welcome_email_html(*, name: str | None, tenant_name: str, login_url: str) ->
     greeting = name or "ciao"
     return f"""
 <p>Ciao {greeting},</p>
-<p>Il workspace <strong>{tenant_name}</strong> su DeevAI è pronto.</p>
+<p>Il workspace <strong>{tenant_name}</strong> su deevAI è pronto.</p>
 <p>Nei primi 14 giorni l&apos;agente lavora in <strong>observation only</strong>:
 propone ottimizzazioni sui bid ma non applica nulla sul tuo seat Amazon DSP.</p>
 <p><a href="{login_url}">Accedi alla dashboard</a></p>
 <p>Quando sei pronto, completa l&apos;onboarding per collegare Amazon DSP.</p>
-<p>— Il team DeevAI</p>
+<p>— Il team deevAI</p>
 """
 
 
 def password_reset_email_html(*, reset_url: str) -> str:
     return f"""
-<p>Hai richiesto il reset della password per il tuo account DeevAI.</p>
+<p>Hai richiesto il reset della password per il tuo account deevAI.</p>
 <p><a href="{reset_url}">Imposta una nuova password</a></p>
 <p>Il link scade tra un&apos;ora. Se non hai richiesto tu il reset, ignora questa email.</p>
-<p>— Il team DeevAI</p>
+<p>— Il team deevAI</p>
 """
 
 
@@ -94,7 +94,7 @@ async def send_welcome_email(
     login_url = f"{settings.app_base_url.rstrip('/')}/login"
     await send_email(
         to=to,
-        subject="Benvenuto su DeevAI",
+        subject="Benvenuto su deevAI",
         html=welcome_email_html(
             name=name,
             tenant_name=tenant_name,
@@ -112,7 +112,7 @@ async def send_password_reset_email(*, to: str, user_id: str, token: str) -> Non
     )
     await send_email(
         to=to,
-        subject="Reimposta la password DeevAI",
+        subject="Reimposta la password deevAI",
         html=password_reset_email_html(reset_url=reset_url),
         idempotency_key=f"password-reset/{user_id}",
     )

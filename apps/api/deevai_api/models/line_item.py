@@ -1,6 +1,6 @@
 """LineItem — a DSP line item under management.
 
-This is the unit that DeevAI optimizes. Each line item has its own CPV
+This is the unit that deevAI optimizes. Each line item has its own CPV
 target, current max_bid, and lifecycle status. The agent's runs and
 decisions are keyed off LineItem.
 

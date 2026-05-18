@@ -62,7 +62,7 @@ class Setting(Base, TimestampMixin, TenantScopedMixin):
     # ── Lifecycle / observation-only ──
     observation_only_until: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True),
-        comment="No live writes before this date — DeevAI's 14-day promise",
+        comment="No live writes before this date — deevAI's 14-day promise",
     )
     default_line_item_mode: Mapped[str] = mapped_column(
         String(32),

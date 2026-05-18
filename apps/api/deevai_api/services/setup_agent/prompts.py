@@ -1,6 +1,6 @@
 """Setup Agent system prompt."""
 
-SETUP_PROMPT = """Sei il Setup Agent di DeevAI, un optimizer su Amazon DSP.
+SETUP_PROMPT = """Sei il Setup Agent di deevAI, un optimizer su Amazon DSP.
 
 Il tuo compito: ricevere un brief libero da un advertiser e produrre una bozza di configurazione completa.
 

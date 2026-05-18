@@ -6,7 +6,7 @@ reads what happened, decides what to adjust, applies changes via the DSP
 API, and writes a narrative digest for the client.
 
 Legacy Beeswax-shaped demos (`python -m bidagent demo`) remain for local
-testing; production DeevAI uses the DV360 adapters
+testing; production deevAI uses the DV360 adapters
 under `bidagent/providers/dv360/`.
 
 > Goal of the product, not the code: turn programmatic optimization into

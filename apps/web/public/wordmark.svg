@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" width="600" height="140" role="img" aria-label="DeevAI wordmark">
-  <title>DeevAI</title>
-  <desc>Wordmark of DeevAI, the weekly bid agent for Google DV360.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" width="600" height="140" role="img" aria-label="deevAI wordmark">
+  <title>deevAI</title>
+  <desc>Wordmark of deevAI, the weekly bid agent for Google DV360.</desc>
   <text
     x="50%"
     y="50%"
@@ -12,7 +12,7 @@
     letter-spacing="-2"
     fill="currentColor"
   >
-    <tspan>Deev</tspan>
+    <tspan>deev</tspan>
     <tspan fill="#3aa882" font-weight="400">AI</tspan>
   </text>
 </svg>

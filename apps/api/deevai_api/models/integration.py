@@ -1,6 +1,6 @@
 """Integration — a tenant's connection to a DSP (Google DV360 for now).
 
-DeevAI is single-DSP by design: each tenant has one DV360 integration.
+deevAI is single-DSP by design: each tenant has one DV360 integration.
 The columns are still provider-tagged so that if we ever add a new DSP
 on the same product (e.g. TTD as a paid add-on) it's a row insert, not
 a schema change.

@@ -1,7 +1,7 @@
 [project]
 name = "deevai-api"
 version = "0.1.0"
-description = "DeevAI backend — multi-tenant FastAPI for Google DV360 bid optimization"
+description = "deevAI backend — multi-tenant FastAPI for Google DV360 bid optimization"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

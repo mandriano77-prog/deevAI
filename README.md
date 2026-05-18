@@ -1,8 +1,8 @@
-# DeevAI
+# deevAI
 
 > The weekly bid-optimization agent for Google DV360.
 
-DeevAI è un agente SaaS che si aggancia all'account Google DV360 di un cliente,
+deevAI è un agente SaaS che si aggancia all'account Google DV360 di un cliente,
 osserva le performance via DV360 Reporting e ogni settimana propone aggiustamenti
 ai bid modifier dei line item — il cliente approva con un click.
 
@@ -67,6 +67,6 @@ cd apps/web && npm run build
 
 ## Provenance
 
-DeevAI nasce dalla codebase MAiNAUS (Amazon DSP). Tutto il codice
+deevAI nasce dalla codebase MAiNAUS (Amazon DSP). Tutto il codice
 Amazon-specific è stato rimosso. La parte di decision engine e
 provider abstraction è stata mantenuta e ripulita.

@@ -3,16 +3,16 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "DeevAI — Weekly bid agent for Google DV360",
-    template: "%s · DeevAI",
+    default: "deevAI — Weekly bid agent for Google DV360",
+    template: "%s · deevAI",
   },
   description:
-    "DeevAI reads what happened on your Google DV360 campaigns, decides what to adjust, and asks you to approve before applying. Every Monday.",
+    "deevAI reads what happened on your Google DV360 campaigns, decides what to adjust, and asks you to approve before applying. Every Monday.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   ),
   openGraph: {
-    title: "DeevAI",
+    title: "deevAI",
     description: "The weekly bid agent for Google DV360.",
     type: "website",
   },

@@ -1,8 +1,8 @@
 /**
- * DeevAI wordmark — three treatments, one component.
+ * deevAI wordmark — three treatments, one component.
  *
- *   <Wordmark variant="logo" />        →  DeevAI  (primary, accent on capital A)
- *   <Wordmark variant="text" />        →  DeevAI  (sentence-case, for navbars and docs)
+ *   <Wordmark variant="logo" />        →  deevAI   (primary, accent on AI)
+ *   <Wordmark variant="text" />        →  deevAI   (sentence-case for navbars and docs)
  *   <Wordmark variant="editorial" />   →  d·eev·AI (hero / pitch deck moments)
  */
 
@@ -24,7 +24,7 @@ export function Wordmark({ variant = "logo", className }: WordmarkProps) {
           className,
         )}
       >
-        DeevAI
+        deevAI
       </span>
     );
   }
@@ -37,7 +37,7 @@ export function Wordmark({ variant = "logo", className }: WordmarkProps) {
           className,
         )}
       >
-        <span>D</span>
+        <span>d</span>
         <span className="text-ink-400 mx-1 -translate-y-[0.06em]">·</span>
         <span>eev</span>
         <span className="text-ink-400 mx-1 -translate-y-[0.06em]">·</span>
@@ -46,7 +46,7 @@ export function Wordmark({ variant = "logo", className }: WordmarkProps) {
     );
   }
 
-  // Default: logo variant — DeevAI (accent on the "AI" part)
+  // Default: logo variant — deevAI (lowercase deev, accent AI)
   return (
     <span
       className={clsx(
@@ -54,7 +54,7 @@ export function Wordmark({ variant = "logo", className }: WordmarkProps) {
         className,
       )}
     >
-      <span>Deev</span>
+      <span>deev</span>
       <span className="text-accent-400 font-normal">AI</span>
     </span>
   );

@@ -1,4 +1,4 @@
-# Local dev infrastructure for DeevAI.
+# Local dev infrastructure for deevAI.
 # Just Postgres for now — Redis/Celery/worker arrive when we add the scheduler.
 
 services:

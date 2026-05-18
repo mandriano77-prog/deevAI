@@ -1,7 +1,7 @@
 """Advertiser — a DSP advertiser account managed under an Integration.
 
 One Integration (= one Amazon seat) can hold multiple advertisers
-(e.g. an agency seat managing several brands). DeevAI optimizes each
+(e.g. an agency seat managing several brands). deevAI optimizes each
 advertiser independently."""
 
 from __future__ import annotations

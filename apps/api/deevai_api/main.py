@@ -23,13 +23,13 @@ log = logging.getLogger("deevai.api")
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Startup / shutdown hooks."""
-    log.info("DeevAI API starting (env=%s)", settings.app_env)
+    log.info("deevAI API starting (env=%s)", settings.app_env)
     yield
-    log.info("DeevAI API shutting down")
+    log.info("deevAI API shutting down")
 
 
 app = FastAPI(
-    title="DeevAI API",
+    title="deevAI API",
     description="Multi-tenant backend for Google DV360 weekly optimization.",
     version="0.1.0",
     lifespan=lifespan,
@@ -61,7 +61,7 @@ async def health() -> dict[str, str]:
 @app.get("/")
 async def root() -> dict[str, str]:
     return {
-        "name": "DeevAI API",
+        "name": "deevAI API",
         "version": "0.1.0",
         "docs": "/docs",
     }

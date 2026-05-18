@@ -2,14 +2,14 @@
 
 > **Status:** Draft v1 (2026-05-17)
 > **Owner:** Adriano
-> **Goal:** Extend DeevAI to support **DV360** and **The Trade Desk** in addition to **Amazon DSP**, without forking the codebase.
+> **Goal:** Extend deevAI to support **DV360** and **The Trade Desk** in addition to **Amazon DSP**, without forking the codebase.
 > **Non-goal:** Implementing DV360/TTD clients in this phase. This doc covers the architectural refactor that makes them addable as a localized effort.
 
 ---
 
 ## 1. Why now
 
-DeevAI works on Amazon DSP today. Two strategic reasons to go multi-provider:
+deevAI works on Amazon DSP today. Two strategic reasons to go multi-provider:
 
 1. **TAM expansion** — Amazon DSP is a fraction of the programmatic spend in EU. DV360 alone is 4-5× larger by volume; TTD has the premium / CTV segment.
 2. **De-risking** — Single-provider products live or die by one API. Multi-provider gives a fallback narrative for sales and for engineering.
@@ -229,7 +229,7 @@ Same structure as Phase 2.
 
 ### Open questions
 1. **Pricing model:** flat per-tenant or per-platform? My recommendation: per-platform (it's how AppLovin / Skai / Aki price).
-2. **Branding:** is "DeevAI" tied to Amazon's "Manaus" pun? Multi-provider might want a more neutral umbrella name (e.g., "MAi by [Brand]"). Defer to marketing.
+2. **Branding:** is "deevAI" tied to Amazon's "Manaus" pun? Multi-provider might want a more neutral umbrella name (e.g., "MAi by [Brand]"). Defer to marketing.
 3. **Order of execution:** DV360 first or TTD first?
    - Recommendation: **DV360 first.** Bigger TAM, mature API, easier sales motion.
 

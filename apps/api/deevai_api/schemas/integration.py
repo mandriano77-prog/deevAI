@@ -39,7 +39,7 @@ class Dv360ConnectRequest(BaseModel):
 
     The customer gives us their Google OAuth client_id/secret (created
     in Google Cloud Console under APIs & Services → Credentials, type
-    "Web application", with the DeevAI callback URL whitelisted).
+    "Web application", with the deevAI callback URL whitelisted).
     """
     name: str = Field(min_length=1, max_length=160, default="DV360")
     client_id: str = Field(min_length=10)

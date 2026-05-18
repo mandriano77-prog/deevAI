@@ -1,4 +1,4 @@
-# apps/api — DeevAI backend
+# apps/api — deevAI backend
 
 FastAPI + SQLAlchemy 2 (async) + Alembic + Postgres.
 

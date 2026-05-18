@@ -1,5 +1,5 @@
 ## ───────────────────────────────────────────────────────────────
-## DeevAI — AWS production infrastructure (Terraform skeleton)
+## deevAI — AWS production infrastructure (Terraform skeleton)
 ##
 ## What this provisions:
 ##   - VPC (3 AZ, public + private subnets)
@@ -49,7 +49,7 @@ provider "aws" {
   region = var.region
   default_tags {
     tags = {
-      Project   = "DeevAI"
+      Project   = "deevAI"
       Env       = var.env
       ManagedBy = "Terraform"
     }

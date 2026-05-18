@@ -35,7 +35,7 @@ export function DemoPreview() {
           Anteprima demo
         </p>
         <h2 className="mt-2 text-2xl font-medium text-ink-50">
-          Così si presenta DeevAI ogni lunedì
+          Così si presenta deevAI ogni lunedì
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-sm text-ink-300">
           Dati sintetici a scopo illustrativo. Dopo l&apos;accesso vedi le metriche

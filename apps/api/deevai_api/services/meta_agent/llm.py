@@ -10,7 +10,7 @@ from ...config import get_settings
 
 log = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = """Sei il meta-agente di DeevAI. Diagnostichi problemi su un bidding multi-objective.
+SYSTEM_PROMPT = """Sei il meta-agente di deevAI. Diagnostichi problemi su un bidding multi-objective.
 Output rigorosamente JSON: {
   "diagnosis": str (max 5 frasi, italiano, tecnico),
   "proposed_changes": [{"entity": str, "entity_id": str, "field": str, "from": any, "to": any, "reason": str}],

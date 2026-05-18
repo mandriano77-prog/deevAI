@@ -1,4 +1,4 @@
-# apps/web — DeevAI frontend
+# apps/web — deevAI frontend
 
 Next.js 15 (App Router), TypeScript strict, Tailwind v3, dark-mode-first.
 

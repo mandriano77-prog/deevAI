@@ -1,4 +1,4 @@
-# DeevAI — AWS production infrastructure
+# deevAI — AWS production infrastructure
 
 Terraform 1.6+ skeleton for the production deployment.
 **Not yet applied.** Run `terraform plan` first and review carefully.

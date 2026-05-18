@@ -1,7 +1,7 @@
 [project]
 name = "bidagent"
 version = "0.1.0"
-description = "DeevAI decision engine and DSP adapters (DV360-first)"
+description = "deevAI decision engine and DSP adapters (DV360-first)"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

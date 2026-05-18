@@ -5,7 +5,7 @@ const steps = [
   },
   {
     title: "Osservi 14 giorni",
-    body: "DeevAI legge AMC, calcola il CPV per dimensione e propone aggiustamenti. Nessuna modifica live senza il tuo via libera.",
+    body: "deevAI legge AMC, calcola il CPV per dimensione e propone aggiustamenti. Nessuna modifica live senza il tuo via libera.",
   },
   {
     title: "Ricevi il brief del lunedì",
