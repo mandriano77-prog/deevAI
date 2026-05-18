@@ -25,6 +25,8 @@ packages = [
     "bidagent",
     "bidagent.providers",
     "bidagent.providers.dv360",
+    "bidagent.engines",
+    "bidagent.engines.custom_bidding",
 ]
 
 [tool.pytest.ini_options]
