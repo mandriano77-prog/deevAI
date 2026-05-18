@@ -1,11 +1,9 @@
 /**
  * DeevAI wordmark — three treatments, one component.
  *
- *   <Wordmark variant="logo" />        →  DeevAI  (primary, caps frame + lowercase i)
+ *   <Wordmark variant="logo" />        →  DeevAI  (primary, accent on capital A)
  *   <Wordmark variant="text" />        →  DeevAI  (sentence-case, for navbars and docs)
- *   <Wordmark variant="editorial" />   →  m·AI·naus (hero / pitch deck moments)
- *
- * Pronounced "Manaus" in all variants — the "i" is a visual wink, silent in speech.
+ *   <Wordmark variant="editorial" />   →  d·eev·AI (hero / pitch deck moments)
  */
 
 import { clsx } from "clsx";
@@ -39,16 +37,16 @@ export function Wordmark({ variant = "logo", className }: WordmarkProps) {
           className,
         )}
       >
-        <span>m</span>
+        <span>D</span>
+        <span className="text-ink-400 mx-1 -translate-y-[0.06em]">·</span>
+        <span>eev</span>
         <span className="text-ink-400 mx-1 -translate-y-[0.06em]">·</span>
         <span className="text-accent-400">AI</span>
-        <span className="text-ink-400 mx-1 -translate-y-[0.06em]">·</span>
-        <span>naus</span>
       </span>
     );
   }
 
-  // Default: logo variant — DeevAI
+  // Default: logo variant — DeevAI (accent on the "AI" part)
   return (
     <span
       className={clsx(
@@ -56,9 +54,8 @@ export function Wordmark({ variant = "logo", className }: WordmarkProps) {
         className,
       )}
     >
-      <span>MA</span>
-      <span className="text-accent-400 font-normal">i</span>
-      <span>NAUS</span>
+      <span>Deev</span>
+      <span className="text-accent-400 font-normal">AI</span>
     </span>
   );
 }
