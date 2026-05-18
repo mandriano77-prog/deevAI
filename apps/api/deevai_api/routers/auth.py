@@ -11,6 +11,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db import get_session
+from ..deps import get_current_user_claims
 from ..models import Setting, Tenant, User, utcnow
 from ..schemas.auth import (
     ForgotPasswordRequest,
@@ -223,15 +224,42 @@ async def reset_password(
 @router.get("/me", response_model=MeResponse)
 async def get_me(
     db: AsyncSession = Depends(get_session),
-    user_data: tuple[str, str, str] = Depends(lambda: _placeholder()),
+    claims: dict = Depends(get_current_user_claims),
 ):
-    """The current user. Real auth dep injected via deps.py — this is a
-    placeholder to keep the import graph clean."""
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Wired via deps.get_current_user — see deps.py for the actual /me",
+    """Return the current authenticated user + tenant context.
+
+    JWT claims carry `sub` (user_id) and `tenant_id`. We hydrate both rows so
+    the frontend can render the topbar (email, name, role, tenant name) without
+    a second round-trip.
+    """
+    user_id = claims.get("sub")
+    tenant_id = claims.get("tenant_id")
+    if not user_id or not tenant_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token senza sub/tenant_id",
+        )
+
+    user = await db.scalar(select(User).where(User.id == user_id))
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Utente non trovato",
+        )
+
+    tenant = await db.scalar(select(Tenant).where(Tenant.id == tenant_id))
+    if tenant is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Tenant non trovato",
+        )
+
+    return MeResponse(
+        user_id=str(user.id),
+        email=user.email,
+        name=user.name,
+        role=user.role,
+        tenant_id=str(tenant.id),
+        tenant_slug=tenant.slug,
+        tenant_name=tenant.name,
     )
-
-
-def _placeholder() -> tuple[str, str, str]:
-    return ("", "", "")
