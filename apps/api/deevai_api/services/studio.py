@@ -207,6 +207,19 @@ async def create_script(
             detail=f"Generated script failed sandbox validation: {msg}",
         )
 
+    # Only attach a created_by_user_id when the JWT sub maps to a real
+    # row; tests / dev tokens may carry an opaque string that doesn't
+    # exist in ``users``, and we don't want the FK to bite.
+    persisted_user_id: str | None = None
+    if user_id:
+        from ..models import User
+
+        u = await db.execute(
+            select(User.id).where(User.id == user_id, User.tenant_id == tenant_id),
+        )
+        if u.scalar_one_or_none() is not None:
+            persisted_user_id = user_id
+
     script = CustomBiddingScript(
         tenant_id=tenant_id,
         line_item_id=payload.line_item_id,
@@ -215,13 +228,16 @@ async def create_script(
         script_source=generated.source,
         script_sha256=generated.digest_sha256,
         size_bytes=len(generated.source.encode("utf-8")),
-        created_by_user_id=user_id,
+        created_by_user_id=persisted_user_id,
     )
     db.add(script)
     try:
         await db.flush()
     except IntegrityError as exc:
         await db.rollback()
+        # The only DB-side uniqueness on this table is (tenant_id, name).
+        # Anything else hitting IntegrityError here is a schema bug, but
+        # 409 "already exists" is still the most actionable client signal.
         raise HTTPException(
             status_code=http_status.HTTP_409_CONFLICT,
             detail="A script with this name already exists for the tenant.",
