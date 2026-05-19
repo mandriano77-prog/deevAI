@@ -341,11 +341,11 @@ async def simulate_script(
         ],
         top_losers=[
             ImpressionScoreDTO(
-                impression_id=l.impression_id,
-                score=float(l.score) if l.score is not None else 0.0,
-                used_signals=list(l.used_signals),
+                impression_id=loser.impression_id,
+                score=float(loser.score) if loser.score is not None else 0.0,
+                used_signals=list(loser.used_signals),
             )
-            for l in report.top_losers[:5]
+            for loser in report.top_losers[:5]
         ],
     )
 
