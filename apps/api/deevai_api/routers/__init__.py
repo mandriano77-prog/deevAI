@@ -17,6 +17,7 @@ from . import (
     runs,
     settings,
     setup_agent,
+    studio,
     tenants,
 )
 
@@ -38,5 +39,6 @@ api_router.include_router(setup_agent.router)
 api_router.include_router(proposals.router)
 api_router.include_router(mai.router)
 api_router.include_router(reporting.router)
+api_router.include_router(studio.router)
 
 __all__ = ["api_router"]
