@@ -95,6 +95,17 @@ export interface MessageResponse {
   message: string;
 }
 
+export interface MeResponse {
+  user_id: string;
+  email: string;
+  name: string | null;
+  role: string;
+  tenant_id: string;
+  tenant_slug: string;
+  tenant_name: string;
+  tenant_is_demo?: boolean;
+}
+
 export const auth = {
   signup: (body: SignupBody) =>
     apiFetch<TokenResponse>("/auth/signup", {
@@ -118,6 +129,15 @@ export const auth = {
     apiFetch<MessageResponse>("/auth/reset-password", {
       method: "POST",
       body: JSON.stringify(body),
+      noAuth: true,
+    }),
+  me: () => apiFetch<MeResponse>("/auth/me"),
+  // One-click demo login. Backend gates this on DEMO_TENANT_ID env, so a
+  // 404 here means "demo not configured on this deployment" — the landing
+  // CTA should fall back to /signup in that case.
+  demoLogin: () =>
+    apiFetch<TokenResponse>("/auth/demo-login", {
+      method: "POST",
       noAuth: true,
     }),
 };
