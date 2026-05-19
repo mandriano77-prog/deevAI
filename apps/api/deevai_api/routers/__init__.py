@@ -13,6 +13,7 @@ from . import (
     meta_agent,
     optimization,
     proposals,
+    reporting,
     runs,
     settings,
     setup_agent,
@@ -36,5 +37,6 @@ api_router.include_router(meta_agent.proposals_router)
 api_router.include_router(setup_agent.router)
 api_router.include_router(proposals.router)
 api_router.include_router(mai.router)
+api_router.include_router(reporting.router)
 
 __all__ = ["api_router"]
