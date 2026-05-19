@@ -395,3 +395,109 @@ export const settingsApi = {
       body: JSON.stringify(body),
     }),
 };
+
+// ---------------------------------------------------------------------------
+// Studio — Custom Bidding script generation + simulation
+// ---------------------------------------------------------------------------
+//
+// Wire shapes mirror apps/api/deevai_api/schemas/studio.py (camelCase via
+// the shared ApiModel alias generator).
+
+export interface ObjectiveWeights {
+  performance: number;
+  quality: number;
+  reach: number;
+}
+
+export interface ScriptCreateBody {
+  name: string;
+  weights: ObjectiveWeights;
+  line_item_id?: string | null;
+}
+
+export interface ScriptRead {
+  id: string;
+  tenantId: string;
+  lineItemId: string | null;
+  name: string;
+  status: string;
+  scriptSha256: string;
+  sizeBytes: number;
+  weights: ObjectiveWeights;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DistributionStats {
+  p10: number;
+  p25: number;
+  p50: number;
+  p75: number;
+  p90: number;
+  p99: number;
+  mean: number;
+  stddev: number;
+  pctAbove500: number;
+}
+
+export interface ImpressionScore {
+  impressionId: string;
+  score: number;
+  usedSignals: string[];
+}
+
+export interface SimulationReport {
+  id: string;
+  scriptId: string;
+  datasetKind: string;
+  nImpressions: number;
+  nScored: number;
+  nExcluded: number;
+  pctAbove500: number;
+  distribution: DistributionStats;
+  topWinners: ImpressionScore[];
+  topLosers: ImpressionScore[];
+  durationMs: number | null;
+  createdAt: string;
+}
+
+export interface ScriptDetail extends ScriptRead {
+  scriptSource: string;
+  latestSimulation: SimulationReport | null;
+}
+
+export interface SimulationRequestBody {
+  dataset_kind?: "synthetic" | "floodlight_historical";
+  n_impressions?: number;
+}
+
+export interface ListScriptsOptions {
+  status?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export const studio = {
+  createScript: (body: ScriptCreateBody) =>
+    apiFetch<ScriptRead>("/studio/scripts", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  listScripts: (opts?: ListScriptsOptions) =>
+    apiFetch<ScriptRead[]>("/studio/scripts", {
+      query: opts as Record<string, string | number | undefined> | undefined,
+    }),
+
+  getScript: (scriptId: string) =>
+    apiFetch<ScriptDetail>(`/studio/scripts/${scriptId}`),
+
+  simulateScript: (scriptId: string, body?: SimulationRequestBody) =>
+    apiFetch<SimulationReport>(`/studio/scripts/${scriptId}/simulate`, {
+      method: "POST",
+      body: JSON.stringify(body ?? {}),
+    }),
+
+  archiveScript: (scriptId: string) =>
+    apiFetch<void>(`/studio/scripts/${scriptId}`, { method: "DELETE" }),
+};
