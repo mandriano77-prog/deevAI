@@ -450,7 +450,7 @@ async def test_migration_0004_up_and_down(db_session):
     mod = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
     spec.loader.exec_module(mod)  # type: ignore[union-attr]
     assert mod.revision == "0004_tenant_is_demo"
-    assert mod.down_revision == "0002_reporting_metrics"
+    assert mod.down_revision == "0003_studio_scripts"
     assert callable(mod.upgrade)
     assert callable(mod.downgrade)
 
