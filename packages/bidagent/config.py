@@ -23,8 +23,11 @@ class LineItemConfig:
     cpv_target: float
     visit_event_id: int                 # conversion event ID for "visit"
     current_max_bid: float
+    # Sprint 0 levers (Engine A — Bid Modifiers).
+    # `time` covers dayparting via the `hour_of_day` key (TARGETING_TYPE_DAY_AND_TIME).
+    # `audience` covers segment-level bid multipliers (TARGETING_TYPE_AUDIENCE_GROUP).
     targeting_modules: list[str] = field(default_factory=lambda: [
-        "time", "platform", "device", "geo", "inventory",
+        "time", "platform", "device", "geo", "inventory", "audience",
     ])
 
 

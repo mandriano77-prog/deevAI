@@ -43,7 +43,15 @@ PATH_BULK_EDIT = (
     "/advertisers/{advertiserId}/lineItems:bulkEditAssignedTargetingOptions"
 )
 
-# Canonical (module, key) → DV360 TargetingType enum
+# Canonical (module, key) → DV360 TargetingType enum.
+#
+# Sprint 0 levers (8 entries total, 7 distinct TargetingType):
+#   inventory/domain        → INVENTORY_SOURCE
+#   inventory/app           → APP
+#   device/device_type      → DEVICE_TYPE
+#   geo/country|region|city → GEO_REGION (3 entries, 1 type)
+#   audience/segment        → AUDIENCE_GROUP   (NEW — lever 7)
+#   time/hour_of_day        → DAY_AND_TIME     (NEW — lever 8, dayparting)
 CANONICAL_TO_TARGETING_TYPE: dict[tuple[str, str], str] = {
     ("inventory", "domain"): "TARGETING_TYPE_INVENTORY_SOURCE",
     ("inventory", "app"): "TARGETING_TYPE_APP",
@@ -52,6 +60,8 @@ CANONICAL_TO_TARGETING_TYPE: dict[tuple[str, str], str] = {
     ("geo", "region"): "TARGETING_TYPE_GEO_REGION",
     ("geo", "city"): "TARGETING_TYPE_GEO_REGION",
     ("audience", "id"): "TARGETING_TYPE_AUDIENCE_GROUP",
+    ("audience", "segment"): "TARGETING_TYPE_AUDIENCE_GROUP",
+    ("time", "hour_of_day"): "TARGETING_TYPE_DAY_AND_TIME",
 }
 
 # DV360 device-type enum tokens (used in targetingOptionId)
@@ -229,6 +239,7 @@ def to_dv360_assigned_option(term: ModifierTerm) -> Optional[dict[str, Any]]:
         "TARGETING_TYPE_INVENTORY_SOURCE": "inventorySourceDetails",
         "TARGETING_TYPE_GEO_REGION": "geoRegionDetails",
         "TARGETING_TYPE_AUDIENCE_GROUP": "audienceGroupDetails",
+        "TARGETING_TYPE_DAY_AND_TIME": "dayAndTimeDetails",
     }.get(targeting_type, "details")
 
     return {
