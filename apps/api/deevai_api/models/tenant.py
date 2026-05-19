@@ -6,7 +6,7 @@ decisions belong to a tenant. No cross-tenant access, ever."""
 
 from __future__ import annotations
 
-from sqlalchemy import String
+from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base, TimestampMixin, new_uuid
@@ -32,6 +32,16 @@ class Tenant(Base, TimestampMixin):
     status: Mapped[str] = mapped_column(
         String(32), default="active", nullable=False,
         comment="active | suspended | deleted",
+    )
+
+    # Demo mode — true for the synthetic showcase tenant. Read-only at the
+    # middleware layer; the UI also surfaces an amber banner when set.
+    is_demo: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        server_default="false",
+        nullable=False,
+        comment="True for the synthetic demo tenant (sales / pitch preview).",
     )
 
     def __repr__(self) -> str:

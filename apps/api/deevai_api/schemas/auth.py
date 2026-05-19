@@ -39,6 +39,7 @@ class MeResponse(BaseModel):
     tenant_id: str
     tenant_slug: str
     tenant_name: str
+    tenant_is_demo: bool = False
 
 
 class ForgotPasswordRequest(BaseModel):
