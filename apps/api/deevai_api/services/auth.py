@@ -3,7 +3,8 @@
 Uses passlib (bcrypt) for passwords and python-jose for JWT.
 Token claims:
   - sub: user_id
-  - tid: tenant_id
+  - tid: tenant_id (canonical)
+  - tenant_id: alias of `tid` for backward-compat (DEPRECATED)
   - role: 'owner' | 'member' | 'viewer'
   - exp: expiration timestamp
 """
@@ -37,6 +38,12 @@ def create_access_token(*, user_id: str, tenant_id: str, role: str) -> str:
     payload: dict[str, Any] = {
         "sub": user_id,
         "tid": tenant_id,
+        # DEPRECATED: tenant_id alias, remove after 2026-08.
+        # Kept here so tokens issued post-uniformity stay readable by any
+        # legacy code path that still reads `tenant_id` (e.g. external
+        # debug tools). All in-tree code reads `tid` via
+        # `deevai_api.deps.get_tenant_id`.
+        "tenant_id": tenant_id,
         "role": role,
         "exp": datetime.now(timezone.utc) + timedelta(days=JWT_TTL_DAYS),
         "iat": datetime.now(timezone.utc),
