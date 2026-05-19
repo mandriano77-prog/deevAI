@@ -431,10 +431,24 @@ async def test_migration_0004_up_and_down(db_session):
     * ``upgrade`` / ``downgrade`` are both callable (smoke check the module
       is importable end-to-end)
     """
-    from importlib import import_module
+    import importlib.util
+    from pathlib import Path
     from sqlalchemy import text
 
-    mod = import_module("alembic.versions.0004_tenant_is_demo")
+    # ``alembic/versions/`` is not a Python package — alembic loads the files
+    # by path. We do the same to verify the revision metadata + callables.
+    mig_path = (
+        Path(__file__).resolve().parent.parent
+        / "alembic"
+        / "versions"
+        / "0004_tenant_is_demo.py"
+    )
+    assert mig_path.is_file(), f"Migration file missing at {mig_path}"
+    spec = importlib.util.spec_from_file_location(
+        "deevai_migration_0004", mig_path
+    )
+    mod = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
     assert mod.revision == "0004_tenant_is_demo"
     assert mod.down_revision == "0002_reporting_metrics"
     assert callable(mod.upgrade)
