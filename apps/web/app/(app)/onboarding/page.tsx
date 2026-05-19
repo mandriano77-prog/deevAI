@@ -89,7 +89,7 @@ function Dv360OnboardingInner() {
           setAdvertisers(result.advertisers);
           setStep("advertiser");
           // Clean the URL so reloading doesn't re-trigger the exchange.
-          router.replace("/onboarding/dv360");
+          router.replace("/onboarding");
         } catch (err) {
           setError(formatError(err));
           setStep("connect");
@@ -237,7 +237,7 @@ function IntroStep({ onNext }: { onNext: () => void }) {
         <Requirement
           n="1"
           title="Un OAuth Client su Google Cloud Console"
-          body="Console Google Cloud → APIs &amp; Services → Credentials → Create Credentials → OAuth client ID, tipo &laquo;Web application&raquo;. Aggiungi http://localhost:3000/onboarding/dv360 come Authorized redirect URI (in produzione metterai il tuo dominio). Annota Client ID e Client Secret."
+          body="Console Google Cloud → APIs &amp; Services → Credentials → Create Credentials → OAuth client ID, tipo &laquo;Web application&raquo;. Aggiungi http://localhost:3000/onboarding come Authorized redirect URI (in produzione metterai il tuo dominio, es. https://deevai.app/onboarding). Annota Client ID e Client Secret."
         />
         <Requirement
           n="2"
