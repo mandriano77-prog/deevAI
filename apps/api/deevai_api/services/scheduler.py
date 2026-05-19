@@ -52,6 +52,7 @@ from ..models import Decision, LineItem, Run, Setting, Tenant  # noqa: E402
 from .actions import get_action_funnel  # noqa: E402
 from .bidagent_runtime import build_line_item_plan, compute_blended_roas  # noqa: E402
 from .dsp_apply import DspApplyError, apply_run_to_dsp, is_observation_only  # noqa: E402
+from .run_stats import compute_run_counters  # noqa: E402
 
 log = logging.getLogger(__name__)
 
@@ -111,6 +112,12 @@ async def run_for_line_item(
     )
 
     # 5. Persist Run + Decision rows
+    # Compute denormalized counters once, at commit time, so the
+    # reporting layer never has to fall back to live aggregation.
+    # Same semantics as services.reporting's live path — single source
+    # of truth lives in services.run_stats.
+    counters = compute_run_counters(plan.decisions)
+
     run = Run(
         tenant_id=tenant_id,
         line_item_id=line_item.id,
@@ -128,6 +135,11 @@ async def run_for_line_item(
         n_decisions=len(plan.decisions),
         n_changes_proposed=len(plan.changed_decisions),
         n_changes_applied=0,
+        n_terms_evaluated=counters["n_terms_evaluated"],
+        n_terms_changed=counters["n_terms_changed"],
+        n_terms_boosted=counters["n_terms_boosted"],
+        n_terms_cut=counters["n_terms_cut"],
+        n_terms_zeroed=counters["n_terms_zeroed"],
     )
     db.add(run)
     await db.flush()  # ensures run.id is populated

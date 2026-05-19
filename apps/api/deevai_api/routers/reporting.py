@@ -16,7 +16,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db import get_session
-from ..deps import get_current_user_claims
+from ..deps import get_current_user_claims, get_tenant_id
 from ..schemas.reporting import (
     ConstraintEventDTO,
     MoverDTO,
@@ -35,16 +35,6 @@ log = logging.getLogger(__name__)
 router = APIRouter(prefix="/reports", tags=["reporting"])
 
 
-def _tenant_from_claims(claims: dict) -> str:
-    tid = claims.get("tid")
-    if not tid or not isinstance(tid, str):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token missing tenant_id claim",
-        )
-    return tid
-
-
 @router.get("/runs/{run_id}", response_model=RunSummaryDTO)
 async def report_run_summary(
     run_id: str,
@@ -52,7 +42,7 @@ async def report_run_summary(
     db: AsyncSession = Depends(get_session),
 ) -> RunSummaryDTO:
     """Top-line KPIs + decision distribution for a single Run."""
-    tenant_id = _tenant_from_claims(claims)
+    tenant_id = get_tenant_id(claims)
     summary = await get_run_summary(db, run_id=run_id, tenant_id=tenant_id)
     if summary is None:
         raise HTTPException(
@@ -69,7 +59,7 @@ async def report_run_movers(
     db: AsyncSession = Depends(get_session),
 ) -> list[MoverDTO]:
     """Top N modifier movers (largest |delta|) for this run."""
-    tenant_id = _tenant_from_claims(claims)
+    tenant_id = get_tenant_id(claims)
     # Distinguish 'no such run' from 'run exists but no movers' so the
     # FE renders the right empty state. Cheap second check; safer.
     summary = await get_run_summary(db, run_id=run_id, tenant_id=tenant_id)
@@ -89,7 +79,7 @@ async def report_run_constraints(
     db: AsyncSession = Depends(get_session),
 ) -> list[ConstraintEventDTO]:
     """Hard-constraint hits recorded during this run."""
-    tenant_id = _tenant_from_claims(claims)
+    tenant_id = get_tenant_id(claims)
     summary = await get_run_summary(db, run_id=run_id, tenant_id=tenant_id)
     if summary is None:
         raise HTTPException(
@@ -111,7 +101,7 @@ async def report_line_item_runs(
     db: AsyncSession = Depends(get_session),
 ) -> list[RunSummaryDTO]:
     """Last N run summaries for a line item, newest first."""
-    tenant_id = _tenant_from_claims(claims)
+    tenant_id = get_tenant_id(claims)
     if not await line_item_exists_for_tenant(
         db, line_item_id=line_item_id, tenant_id=tenant_id,
     ):

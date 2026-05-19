@@ -28,6 +28,7 @@ from ..schemas.reporting import (
     RunKpiBlock,
     RunSummaryDTO,
 )
+from .run_stats import compute_run_counters
 
 # Matches the canonical note shape written by
 # packages/bidagent/decision_engine.py::_apply_constraint_policy.
@@ -106,7 +107,9 @@ async def _compute_distribution(
             n_terms_zeroed=run.n_terms_zeroed or 0,
         )
 
-    # Live aggregation — counts straight from `decisions`.
+    # Live aggregation — counts straight from `decisions`. Routed
+    # through ``compute_run_counters`` so the semantics stay aligned
+    # with the scheduler's commit-time path.
     rows = (
         await db.execute(
             select(Decision.previous_modifier, Decision.new_modifier).where(
@@ -116,27 +119,15 @@ async def _compute_distribution(
         )
     ).all()
 
-    evaluated = len(rows)
-    changed = boosted = cut = zeroed = 0
-    for prev, new in rows:
-        prev_f = float(prev)
-        new_f = float(new)
-        if new_f == 0.0:
-            zeroed += 1
-        if new_f > prev_f:
-            boosted += 1
-            changed += 1
-        elif new_f < prev_f:
-            cut += 1
-            changed += 1
+    class _Pair:
+        __slots__ = ("previous_modifier", "new_modifier")
 
-    return DecisionDistribution(
-        n_terms_evaluated=evaluated,
-        n_terms_changed=changed,
-        n_terms_boosted=boosted,
-        n_terms_cut=cut,
-        n_terms_zeroed=zeroed,
-    )
+        def __init__(self, prev: object, new: object) -> None:
+            self.previous_modifier = prev
+            self.new_modifier = new
+
+    counters = compute_run_counters(_Pair(prev, new) for prev, new in rows)
+    return DecisionDistribution(**counters)
 
 
 def _parse_constraint_note(note: Optional[str]) -> dict[str, Optional[str]]:

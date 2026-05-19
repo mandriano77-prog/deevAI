@@ -11,7 +11,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db import get_session
-from ..deps import get_current_user_claims
+from ..deps import get_current_user_claims, get_tenant_id
 from ..models import Setting, Tenant, User, utcnow
 from ..schemas.auth import (
     ForgotPasswordRequest,
@@ -228,17 +228,19 @@ async def get_me(
 ):
     """Return the current authenticated user + tenant context.
 
-    JWT claims carry `sub` (user_id) and `tenant_id`. We hydrate both rows so
-    the frontend can render the topbar (email, name, role, tenant name) without
-    a second round-trip.
+    JWT claims carry `sub` (user_id) and `tid` (tenant_id, with a
+    legacy `tenant_id` alias for backward-compat -- see
+    `deps.get_tenant_id`). We hydrate both rows so the frontend can
+    render the topbar (email, name, role, tenant name) without a
+    second round-trip.
     """
     user_id = claims.get("sub")
-    tenant_id = claims.get("tenant_id")
-    if not user_id or not tenant_id:
+    if not user_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token senza sub/tenant_id",
+            detail="Token senza sub",
         )
+    tenant_id = get_tenant_id(claims)
 
     user = await db.scalar(select(User).where(User.id == user_id))
     if user is None:
