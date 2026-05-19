@@ -10,6 +10,7 @@ import { Wordmark } from "./wordmark";
 const navItems = [
   { href: "/dashboard", label: "Overview" },
   { href: "/decisions", label: "Decisions" },
+  { href: "/studio", label: "Studio" },
   { href: "/setup-agent", label: "Setup agent" },
   { href: "/tuning-agent", label: "Tuning agent" },
   { href: "/settings", label: "Settings" },
