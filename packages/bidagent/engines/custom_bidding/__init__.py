@@ -66,6 +66,24 @@ from .script_generator import (
     generate_script,
     render_diff,
 )
+from .dsl_interpreter import (
+    CompiledScript,
+    DSLError,
+    DSLRuntimeError,
+    DSLValidationError,
+    compile_script,
+    evaluate,
+    run_with_signals,
+)
+from .score_simulator import (
+    ImpressionRow,
+    ImpressionScoreBreakdown,
+    ScoreSimulator,
+    SimulationDataset,
+    SimulationReport,
+    generate_synthetic_dataset,
+    simulate_tenant_config,
+)
 
 __all__ = [
     # feature_catalog
@@ -96,4 +114,20 @@ __all__ = [
     "ValidationReport",
     "assert_valid",
     "validate_script",
+    # dsl_interpreter
+    "CompiledScript",
+    "DSLError",
+    "DSLRuntimeError",
+    "DSLValidationError",
+    "compile_script",
+    "evaluate",
+    "run_with_signals",
+    # score_simulator
+    "ImpressionRow",
+    "ImpressionScoreBreakdown",
+    "ScoreSimulator",
+    "SimulationDataset",
+    "SimulationReport",
+    "generate_synthetic_dataset",
+    "simulate_tenant_config",
 ]
