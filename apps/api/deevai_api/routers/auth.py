@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 import logging
+import time
+from collections import deque
 from datetime import timedelta
-from typing import Annotated
+from threading import Lock
+from typing import Annotated, Deque
 
-from fastapi import APIRouter, BackgroundTasks, Body, Depends, HTTPException, status
+from fastapi import APIRouter, BackgroundTasks, Body, Depends, HTTPException, Request, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from ..config import get_settings
 from ..db import get_session
 from ..deps import get_current_user_claims, get_tenant_id
 from ..models import Setting, Tenant, User, utcnow
@@ -39,6 +43,38 @@ FORGOT_PASSWORD_MESSAGE = (
     "Se l'indirizzo è registrato, riceverai un'email con le istruzioni "
     "per reimpostare la password."
 )
+
+# In-memory token bucket for ``POST /auth/demo-login``: max 10 calls/hour per IP.
+# Single-process by design — demo logins are low-volume and the cost of getting
+# rate-limit-bypass via multi-worker scale-out is acceptable for a sales demo.
+DEMO_LOGIN_MAX_PER_HOUR = 10
+DEMO_LOGIN_WINDOW_SECONDS = 3600
+_demo_login_hits: dict[str, Deque[float]] = {}
+_demo_login_lock = Lock()
+
+
+def _demo_login_check_rate_limit(client_ip: str, *, now: float | None = None) -> bool:
+    """Return True when the call is within budget; False when we must 429.
+
+    Uses a sliding-window deque keyed by IP. The lock is held only for the
+    bookkeeping — not across the JWT mint — so concurrency stays cheap.
+    """
+    ts = time.monotonic() if now is None else now
+    with _demo_login_lock:
+        bucket = _demo_login_hits.setdefault(client_ip, deque())
+        cutoff = ts - DEMO_LOGIN_WINDOW_SECONDS
+        while bucket and bucket[0] < cutoff:
+            bucket.popleft()
+        if len(bucket) >= DEMO_LOGIN_MAX_PER_HOUR:
+            return False
+        bucket.append(ts)
+        return True
+
+
+def _reset_demo_login_buckets() -> None:
+    """Test hook — clear the in-memory rate-limit table between tests."""
+    with _demo_login_lock:
+        _demo_login_hits.clear()
 
 
 async def _send_welcome_after_signup(
@@ -221,6 +257,88 @@ async def reset_password(
     return MessageResponse(message="Password aggiornata. Puoi accedere con le nuove credenziali.")
 
 
+@router.post("/demo-login", response_model=TokenResponse)
+async def demo_login(
+    request: Request,
+    db: AsyncSession = Depends(get_session),
+) -> TokenResponse:
+    """Mint a short-lived JWT for the public demo tenant.
+
+    * **No credentials.** The caller provides nothing — we identify the demo
+      tenant from the ``DEMO_TENANT_ID`` env var. If that var is unset the
+      endpoint behaves as if it doesn't exist (404).
+    * **Rate limited.** Max 10 calls/hour per source IP (in-memory token
+      bucket). The 11th call gets 429.
+    * **Read-only by construction.** The minted JWT carries the demo tenant's
+      ``tid``; the ``DemoReadonlyMiddleware`` will then 403 any write attempt.
+    """
+    settings = get_settings()
+    demo_tid = settings.demo_tenant_id
+    if not demo_tid:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Demo mode is not enabled on this environment",
+        )
+
+    client_ip = request.client.host if request.client else "unknown"
+    if not _demo_login_check_rate_limit(client_ip):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail=(
+                "Troppi tentativi di accesso al demo da questo IP. "
+                "Riprova tra un'ora."
+            ),
+        )
+
+    tenant = await db.get(Tenant, demo_tid)
+    if tenant is None or not getattr(tenant, "is_demo", False):
+        log.error(
+            "demo-login: DEMO_TENANT_ID=%s but no matching demo tenant row found",
+            demo_tid,
+        )
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Demo tenant non inizializzato. Esegui lo seed.",
+        )
+
+    demo_user = await db.scalar(
+        select(User)
+        .where(User.tenant_id == tenant.id)
+        .where(User.status == "active")
+        .order_by(User.created_at.asc())
+    )
+    if demo_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Demo user non inizializzato. Esegui lo seed.",
+        )
+
+    from datetime import datetime, timezone
+
+    from jose import jwt as _jwt
+
+    from ..services.auth import JWT_ALGORITHM
+
+    now = datetime.now(timezone.utc)
+    payload = {
+        "sub": demo_user.id,
+        "tid": tenant.id,
+        "role": demo_user.role,
+        "is_demo": True,
+        "iat": now,
+        "exp": now + timedelta(hours=24),
+    }
+    token = _jwt.encode(payload, settings.api_secret_key, algorithm=JWT_ALGORITHM)
+
+    return TokenResponse(
+        access_token=token,
+        user_id=demo_user.id,
+        tenant_id=tenant.id,
+        tenant_slug=tenant.slug,
+        expires_in_days=1,
+    )
+
+
 @router.get("/me", response_model=MeResponse)
 async def get_me(
     db: AsyncSession = Depends(get_session),
@@ -264,4 +382,5 @@ async def get_me(
         tenant_id=str(tenant.id),
         tenant_slug=tenant.slug,
         tenant_name=tenant.name,
+        tenant_is_demo=bool(getattr(tenant, "is_demo", False)),
     )

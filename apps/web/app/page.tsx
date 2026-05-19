@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Audience } from "@/components/landing/audience";
 import { DemoPreview } from "@/components/landing/demo-preview";
 import { HowItWorks } from "@/components/landing/how-it-works";
+import { TryDemoButton } from "@/components/landing/try-demo-button";
 import { Wordmark } from "@/components/wordmark";
 
 export default function HomePage() {
@@ -51,9 +52,10 @@ export default function HomePage() {
         </p>
 
         <div className="mt-12 flex flex-col items-center gap-3 sm:flex-row">
+          <TryDemoButton />
           <Link
             href="/signup"
-            className="rounded-md bg-accent-600 px-5 py-2.5 text-sm font-medium text-ink-50 transition hover:bg-accent-700"
+            className="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-medium text-ink-100 transition hover:border-accent-400 hover:text-accent-300"
           >
             Richiedi accesso
           </Link>
@@ -61,7 +63,7 @@ export default function HomePage() {
             href="#demo"
             className="text-sm text-ink-200 underline-offset-4 hover:text-ink-50 hover:underline"
           >
-            Vedi l&apos;anteprima demo →
+            Vedi l&apos;anteprima statica →
           </a>
         </div>
 

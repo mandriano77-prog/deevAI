@@ -78,6 +78,13 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     sentry_dsn: Optional[str] = None
 
+    # ── Demo mode ──
+    # Tenant id of the synthetic demo account used for sales / pitch / self-serve
+    # previews. When set, ``POST /v1/auth/demo-login`` is enabled and the
+    # ``DemoReadonlyMiddleware`` short-circuits any non-GET writes from a JWT
+    # whose ``tid`` matches this value. Leave unset to fully disable demo mode.
+    demo_tenant_id: Optional[str] = None
+
     @property
     def is_production(self) -> bool:
         return self.app_env == "production"
